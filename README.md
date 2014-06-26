@@ -1,4 +1,6 @@
-entropy-collector.js
-====================
+EntropyCollector
+================
 
-JavaScript entropy collector
+* collects entropy from mouse moves and keystrokes,
+
+* estimates the amount of Shannon information of collected samples.
