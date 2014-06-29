@@ -19,8 +19,7 @@ function print () {
 
 EntropyCollector.start();
 
-var timer = null;
-document.addEventListener( 'mousemove', function () { if ( !timer ) timer = setTimeout( function () { timer = null, print() }, 200 ) } );
+setInterval( print, 300 );
 
 </script>
 </body>
