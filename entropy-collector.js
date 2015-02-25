@@ -89,6 +89,8 @@ var EntropyCollector = ( function ( global ) {
         _event_target.addEventListener( 'mousedown', _mouse_collector );
         _event_target.addEventListener( 'mouseup', _mouse_collector );
 
+        _event_target.addEventListener( 'touchmove', _mouse_collector );        
+
         _event_target.addEventListener( 'keydown', _keyboard_collector );
         _event_target.addEventListener( 'keyup', _keyboard_collector );
     }
