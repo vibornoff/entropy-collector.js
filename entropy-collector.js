@@ -45,12 +45,11 @@ var EntropyCollector = ( function ( global ) {
     // Buffer for events
 
     var _buffer_size = 1024;
-    var _buffer = new Uint32Array( _buffer_size << 1 );
+    var _buffer = new Int32Array( 2*_buffer_size );
 
     // Collected events
 
-    // TODO mobile devies: _accel_events, _grav_events
-    // MAYBE _entropy_mic_events, _entropy_cam_events
+    // MAYBE TODO _entropy_mic_events, _entropy_cam_events
     var _time_events = _buffer.subarray(0, _buffer_size),
         _coord_events = _buffer.subarray(_buffer_size),
         _event_counter = 0;
@@ -72,6 +71,12 @@ var EntropyCollector = ( function ( global ) {
         _event_counter++;
     }
 
+    function _touch_collector ( e ) {
+        for ( var i = 0; i < e.touches.length; i++ ) {
+            _mouse_collector( e.touches[i] );
+        }
+    }
+
     function _keyboard_collector ( e ) {
         var i = _event_counter % _buffer_size,
             t = now();
@@ -89,7 +94,9 @@ var EntropyCollector = ( function ( global ) {
         _event_target.addEventListener( 'mousedown', _mouse_collector );
         _event_target.addEventListener( 'mouseup', _mouse_collector );
 
-        _event_target.addEventListener( 'touchmove', _mouse_collector );        
+        _event_target.addEventListener( 'touchmove', _touch_collector );
+        _event_target.addEventListener( 'touchstart', _touch_collector );
+        _event_target.addEventListener( 'touchend', _touch_collector );
 
         _event_target.addEventListener( 'keydown', _keyboard_collector );
         _event_target.addEventListener( 'keyup', _keyboard_collector );
@@ -99,6 +106,10 @@ var EntropyCollector = ( function ( global ) {
         _event_target.removeEventListener( 'mousemove', _mouse_collector );
         _event_target.removeEventListener( 'mousedown', _mouse_collector );
         _event_target.removeEventListener( 'mouseup', _mouse_collector );
+
+        _event_target.removeEventListener( 'touchmove', _touch_collector );
+        _event_target.removeEventListener( 'touchstart', _touch_collector );
+        _event_target.removeEventListener( 'touchend', _touch_collector );
 
         _event_target.removeEventListener( 'keydown', _keyboard_collector );
         _event_target.removeEventListener( 'keyup', _keyboard_collector );
