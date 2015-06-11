@@ -34,6 +34,10 @@ Starts entropy collection at the current target.
 
 Stops entropy collection at the current target.
 
+### EntropyCollector.poke
+
+Adds timing entropy event to collector.
+
 ### EntropyCollector.eventsCaptured
 
 The number of events captured.

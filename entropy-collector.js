@@ -77,7 +77,7 @@ var EntropyCollector = ( function ( global ) {
         }
     }
 
-    function _keyboard_collector ( e ) {
+    function _timing_collector () {
         var i = _event_counter % _buffer_size,
             t = now();
 
@@ -87,6 +87,14 @@ var EntropyCollector = ( function ( global ) {
 
         _last_t = t;
         _event_counter++;
+    }
+
+    function _keyboard_collector ( e ) {
+        _timing_collector();
+    }
+
+    function poke () {
+        _timing_collector();
     }
 
     function start () {
@@ -310,6 +318,8 @@ var EntropyCollector = ( function ( global ) {
         get estimatedEntropy () { return estimate() },
 
         get buffer () { return _buffer.buffer },
+
+        poke: poke,
 
         start: start,
         stop: stop,
